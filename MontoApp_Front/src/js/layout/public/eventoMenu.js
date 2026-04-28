@@ -1,8 +1,25 @@
-document.getElementById('menuToggle').addEventListener('click', () => {
-    const menu = document.getElementById('navMenu');
-    // Alternar la clase 'hidden'
-    menu.classList.toggle('hidden');
-    // Añadir clases para que sea flotante en móvil
-    menu.classList.toggle('absolute'); 
-    menu.classList.toggle('w-full');
-});
+export function iniciarEventosMenu() {
+    document.addEventListener('click', (e) => {
+        const menu = document.querySelector('.itemsMenuHamburguesa');
+        if (!menu) return; 
+
+        if (e.target.closest('.menuHamburguesa')) {
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+        }
+
+        const isMenuOpen = !menu.classList.contains('hidden');
+        const clickedInsideMenu = menu.contains(e.target);
+        const clickedInsideHamburguesa = e.target.closest('.menuHamburguesa');
+
+        if (isMenuOpen && !clickedInsideMenu && !clickedInsideHamburguesa) {
+            menu.classList.add('hidden');
+            menu.classList.remove('flex');
+        }
+
+        if (e.target.closest('.enlace')) {
+            menu.classList.add('hidden');
+            menu.classList.remove('flex');
+        }
+    });
+}

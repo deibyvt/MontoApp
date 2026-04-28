@@ -1,34 +1,41 @@
 import { actualizarLayout } from "./layout/estadoLayout.js";
+import { iniciarEventosMenu } from "./layout/public/eventoMenu.js";
+import { PATHS } from "./routes.js";
 
 export class Router {
-    
-    constructor(routes) {
-        this.routes = routes;
+
+    constructor() {
+        this.routes = PATHS;
         this.init();
     }
 
     init() {
 
         document.addEventListener('click', (e) => {
-            if (e.target.matches('.nav-link')) {
+            if (e.target.matches('.enlace')) {
                 e.preventDefault();
-                const routeName = e.target.getAttribute('data-route');
-                this.load(routeName);
+                const routeName = e.target.getAttribute('path');
+                if (routeName != null) {
+                    this.load(routeName);
+                }
             }
         });
+        iniciarEventosMenu();
 
         window.addEventListener('popstate', () => this.load(window.location.pathname === '/' || window.location.pathname === ''  ? 'welcome' : window.location.pathname));
     
-        this.load((window.location.pathname === '/' || window.location.pathname === '') 
+        this.load((window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname === 'index.html' || window.location.pathname === 'welcome') 
         ? 'welcome' 
         : window.location.pathname);
 
     }
 
-    load(page) {
+    load(path) {
 
-        page = page.replace('/', '');
-        let route = this.routes[page] || this.routes['error'];
+        path = path.replace('/', '');
+
+        let route = this.routes[path] || this.routes['error'];
+
         const logged = window.localStorage.getItem('token_user') !== null;
 
         actualizarLayout(logged);
@@ -40,7 +47,7 @@ export class Router {
         const container = document.getElementById('contenido');
         
         if (container) {
-            container.innerHTML = route.template;
+            container.innerHTML = route.template();
         }
         
         if (window.location.pathname !== route.path) {

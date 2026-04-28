@@ -1,7 +1,11 @@
+import { login } from "./views/login/login.js";
+import { perfil } from "./views/perfil/perfil.js";
+import { welcome } from "./views/welcome/welcome.js";
+
 export const PATHS = {
     login: {
         path: '/login', 
-        template: '<h1>login</h1>', 
+        template: login, 
         private: false
     },
     register: {
@@ -11,19 +15,27 @@ export const PATHS = {
     },
     welcome: {
         path: '/welcome',
-        template: '<h1>welcome</h1>',
+        template: welcome,
         private: false
     },
     home: { 
         path: '/home', 
         template: '<h1>home</h1>', 
-        private: true },
+        private: true 
+    },
     products: { 
         path: '/products', 
         template: '<h1>productos</h1>', 
-        private: true }, 
+        private: true 
+    }, 
     error: { 
         path: '/404', 
-        template: '<h1>error</h1>', 
-        private: true }
+        template: '<h1>not found</h1>', 
+        private: false
+    },
+    perfil: {
+        path: '/perfil', 
+        template: perfil, 
+        private: false
+    }
 };
